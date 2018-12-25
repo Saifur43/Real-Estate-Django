@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from django.template import RequestContext
 
 
 def login(requset):
@@ -22,7 +23,10 @@ def login(requset):
 
 
 def logout(requset):
-    return redirect('index') 
+    if requset.method == 'POST':
+        auth.logout(requset)
+        messages.success(requset, 'You are now logged out')
+        return redirect('index')
 
 
 def register(requset):
